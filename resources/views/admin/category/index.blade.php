@@ -36,7 +36,7 @@
                       <tr>
                         <th scope="row">{{ $category->id }}</th>
                         <td>{{ $category->category_name }}</td>
-                        <td>{{ $category->user_id }}</td>
+                        <td>{{ $category->name }}</td>
                         <td>
                           @if ($category->created_at == NULL)
                             <span class="text-danger">N/A</span>
@@ -49,6 +49,7 @@
                     
                   </tbody>
                 </table>
+                {{ $categories->links() }}
             </div>
           </div>
         </div>
