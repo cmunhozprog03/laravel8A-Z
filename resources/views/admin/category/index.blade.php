@@ -26,18 +26,27 @@
                   <thead>
                     <tr class="bg-green-800 text-gray-50">
                       <th scope="col">ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">E-mail</th>
+                      <th scope="col">Category Name</th>
+                      <th scope="col">User</th>
                       <th scope="col">Create At</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row"></th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      </tr>
+                    @foreach ($categories as $category)
+                      <tr>
+                        <th scope="row">{{ $category->id }}</th>
+                        <td>{{ $category->category_name }}</td>
+                        <td>{{ $category->user_id }}</td>
+                        <td>
+                          @if ($category->created_at == NULL)
+                            <span class="text-danger">N/A</span>
+                          @else 
+                            {{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</td>
+                          @endif
+                        </td>
+                      </tr>  
+                    @endforeach
+                    
                   </tbody>
                 </table>
             </div>
