@@ -47,7 +47,7 @@
                         </td>
                         <td>
                           <a href="{{ url('category/edit/'.$category->id) }}" class="btn btn-info">Edit</a>
-                          <a href="" class="btn btn-danger">Delete</a>
+                          <a href="{{ url('softdelete/category/'.$category->id) }}" class="btn btn-danger">Delete</a>
                         </td>
                       </tr>  
                     @endforeach
@@ -79,5 +79,59 @@
         </div>
       </div>
     </div>
+
+    <!--TrachParts-->
+    <div class="container shadow">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            
+            <div class="class-header mt-2">Trach List</div>
+              <div class="table-responsive">
+                <table class="table mt-4">
+                  <thead>
+                    <tr class="bg-red-800 text-gray-50">
+                      <th scope="col">ID</th>
+                      <th scope="col">Category Name</th>
+                      <th scope="col">User</th>
+                      <th scope="col">Create At</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($trachCat as $category)
+                      <tr>
+                        <th scope="row">{{ $category->id }}</th>
+                        <td>{{ $category->category_name }}</td>
+                        <td>{{ $category->user->name }}</td>
+                        <td>
+                          @if ($category->created_at == NULL)
+                            <span class="text-danger">N/A</span>
+                          @else 
+                            {{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</td>
+                          @endif
+                        </td>
+                        <td>
+                          <a href="{{ url('category/edit/'.$category->id) }}" class="btn btn-info">Edit</a>
+                          <a href="" class="btn btn-danger">Delete</a>
+                        </td>
+                      </tr>  
+                    @endforeach
+                    
+                  </tbody>
+                </table>
+                {{ $trachCat->links() }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          
+        </div>
+      </div>
+    </div>
+    <!-- End Trach -->
+
+
+
   </div>
 </x-app-layout>
