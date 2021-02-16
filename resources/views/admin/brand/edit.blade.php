@@ -7,7 +7,7 @@
       </h2>
   </x-slot>
 
-  <div class="py-12">
+  <div class="py-4">
     <div class="container shadow">
       <div class="row">
         <div class="col-md-8">
@@ -25,10 +25,11 @@
         </div>
         <div class="col-md-8">
           <div class="card">
-            <div class="card-header">Edit Brand</div>
+            <div class="card-header" action="">Edit Brand</div>
             <div class="card-body">
-              <form action="" method="POST" enctype="multipart/form-data">
+              <form action="{{url('brand/update/'.$brands->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="old_image" value="{{ $brands->brand_image }}">
                 <div class="form-group">
                   <label for="">Brand Name</label>
                   <input type="text" name="brand_name" class="form-control" 
@@ -45,8 +46,9 @@
                     <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
+
                 <div class="form-group">
-                  <img src="{{ asset($brands->brand_image) }}" alt="" style="width: 20%;">
+                  <img src="{{ asset($brands->brand_image) }}" alt="" style="width: 300px;">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Brand</button>
               

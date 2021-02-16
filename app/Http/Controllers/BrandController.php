@@ -54,4 +54,59 @@ class BrandController extends Controller
         $brands = Brand::find($id);
         return view('admin.brand.edit', compact('brands'));
     }
+
+    public function Update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'brand_name' => 'required|min:4'
+            
+        ],
+        [
+            'brand_name.required' => 'Insira o nome da Marca',
+            'brand_name.min' => 'O nome da marca deve conter no mínimo 4 caracteres',
+            'brand_image.mimes' => 'Arquivo não valido! Somente .jpg .jpeg e .png',
+            
+        ]);
+
+        $old_image = $request->old_image;
+        $brand_image = $request->file('brand_image');
+
+        if($brand_image){
+            $name_gen = hexdec(uniqid());
+            $img_ext = strtolower($brand_image->getClientOriginalExtension());
+            $img_name = $name_gen.'.'.$img_ext;
+            $up_location = 'image/brand/';
+            $last_img = $up_location.$img_name;
+            $brand_image->move($up_location,$img_name);
+
+            unlink($old_image);
+
+            Brand::find($id)->update([
+                'brand_name' => $request->brand_name,
+                'brand_image' => $last_img,
+                'created_at' => Carbon::now(),
+                
+            ]);
+
+            return redirect()->back()->with('success', 'Marca updated com sucesso!');
+
+        } else {
+            Brand::find($id)->update([
+                'brand_name' => $request->brand_name,
+                'created_at' => Carbon::now(),
+                
+            ]);
+            return redirect()->back()->with('success', 'Marca alterada com sucesso!');
+        }
+    }
+
+    public function Delete($id)
+    {
+        $image = Brand::find($id);
+        $old_image = $image->brand_image;
+        unlink($old_image);
+
+        Brand::find($id)->delete();
+        return redirect()->back()->with('success', 'Marca excluida com sucesso!');
+    }
 }
